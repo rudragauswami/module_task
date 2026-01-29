@@ -2,15 +2,27 @@
     <data>
         <record id="view_sale_order_line_dimensions" model="ir.ui.view">
             <field name="name">sale.order.line.dimensions</field>
-            <field name="model">sale.order</field> <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
 
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_line']//field[@name='product_template_id']" position="after">
+                    <field name="is_apron_shutter" column_invisible="1"/>
 
-                    <field name="shutter_height"/>
-                    <field name="shutter_length"/>
-                    <field name="compute_shutter_area"/>
+                    <field name="shutter_height"
+                           optional="show"
+                           column_invisible="not parent.has_apron_lines"
+                           invisible="not is_apron_shutter"/>
 
+                    <field name="shutter_length"
+                           optional="show"
+                           column_invisible="not parent.has_apron_lines"
+                           invisible="not is_apron_shutter"/>
+
+                    <field name="compute_shutter_area"
+                           optional="show"
+                           column_invisible="not parent.has_apron_lines"
+                           invisible="not is_apron_shutter"/>
                 </xpath>
             </field>
         </record>
@@ -24,9 +36,18 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='order_id']" position="after">
-                <field name="shutter_height"/>
-                <field name="shutter_length"/>
-                <field name="compute_shutter_area"/>
+                <field name="is_apron_shutter" column_invisible="1"/>
+                <field name="shutter_height"
+                       optional="show"
+                       invisible="not is_apron_shutter"/>
+
+                <field name="shutter_length"
+                       optional="show"
+                       invisible="not is_apron_shutter"/>
+
+                <field name="compute_shutter_area"
+                       optional="show"
+                       invisible="not is_apron_shutter"/>
             </xpath>
 
         </field>
