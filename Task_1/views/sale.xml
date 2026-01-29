@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="view_sale_order_line_dimensions" model="ir.ui.view">
+            <field name="name">sale.order.line.dimensions</field>
+            <field name="model">sale.order</field> <field name="inherit_id" ref="sale.view_order_form"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']//field[@name='product_template_id']" position="after">
+
+                    <field name="shutter_height"/>
+                    <field name="shutter_length"/>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+
+    <record id="view_sale_order_line_list_inherit_shutter" model="ir.ui.view">
+        <field name="name">sale.order.line.list.inherit.shutter</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='order_id']" position="after">
+                <field name="shutter_height"/>
+                <field name="shutter_length"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
