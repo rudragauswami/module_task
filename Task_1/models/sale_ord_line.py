@@ -39,15 +39,12 @@ class Sale(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    # 1. Existing fields...
     x_shutter_type = fields.Selection([('manual', 'Manual'), ('auto', 'Automatic')], string="Shutter Type")
 
-    # 2. NEW Computed Field: Checks if ANY line is an Apron Shutter
     has_apron_lines = fields.Boolean(compute="_compute_has_apron_lines", store=True)
 
     @api.depends('order_line.is_apron_shutter')
     def _compute_has_apron_lines(self):
         for order in self:
-            # Check if ANY line in this order has is_apron_shutter = True
             order.has_apron_lines = any(line.is_apron_shutter for line in order.order_line)
 
