@@ -9,6 +9,7 @@
 
                     <field name="shutter_height"/>
                     <field name="shutter_length"/>
+                    <field name="compute_shutter_area"/>
 
                 </xpath>
             </field>
@@ -25,6 +26,7 @@
             <xpath expr="//field[@name='order_id']" position="after">
                 <field name="shutter_height"/>
                 <field name="shutter_length"/>
+                <field name="compute_shutter_area"/>
             </xpath>
 
         </field>
