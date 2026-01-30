@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+
+        <!-- Root Menu -->
+        <menuitem id="menu_shutter_root"
+                  name="Shutter Master"
+                  sequence="10"/>
+
+        <!-- Configuration Menu -->
+        <menuitem id="menu_shutter_config"
+                  name="Configuration"
+                  parent="menu_shutter_root"
+                  action="action_shutter_component_config"
+                  sequence="100"/>
+
+        <!-- Shutter Type Menu -->
+        <menuitem id="menu_shutter_type_act"
+                  name="Shutter Types"
+                  parent="menu_shutter_root"
+                  action="action_shutter_type"
+                  sequence="10"/>
+
+
+
+        <!-- Range Config Menu -->
+        <menuitem id="menu_shutter_range_config_act"
+                  name="Range Rules"
+                  parent="menu_shutter_root"
+                  action="action_shutter_range_config"
+                  sequence="20"/>
+
+        <!-- Component Config Menu -->
+        <menuitem id="menu_shutter_component_config_act"
+                  name="Component Mapping"
+                  parent="menu_shutter_root"
+                  action="action_shutter_component_config"
+                  sequence="30"/>
+
+    </data>
+</odoo>

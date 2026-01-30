@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+
+    <record id="action_shutter_type" model="ir.actions.act_window">
+        <field name="name">Shutter Types</field>
+        <field name="res_model">shutter.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Shutter Type!
+            </p>
+        </field>
+    </record>
+
+
+    <record id="view_shutter_type_form" model="ir.ui.view">
+        <field name="name">shutter.type.form</field>
+        <field name="model">shutter.type</field>
+        <field name="arch" type="xml">
+            <form string="Shutter Type">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+
+                    <group>
+                        <group>
+                            <field name="name" placeholder="e.g. Apron Shutter"/>
+                            <field name="code" placeholder="e.g. APR-001"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_shutter_type_tree" model="ir.ui.view">
+        <field name="name">shutter.type.list</field>
+        <field name="model">shutter.type</field>
+        <field name="arch" type="xml">
+            <list string="Shutter Types" sample="1">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+  </data>
+</odoo>

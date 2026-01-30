@@ -1,0 +1,44 @@
+<odoo>
+    <record id="view_order_form_inherit_shutter_config" model="ir.ui.view">
+        <field name="name">sale.order.form.shutter.config</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_template_id']" position="after">
+                <field name="shutter_height"
+                       optional="show"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not product_template_id.is_shutter_product"/>
+
+                <field name="shutter_width"
+                       optional="show"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not product_template_id.is_shutter_product"/>
+
+                <field name="lock_product_id"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not range_config_id"/>
+
+                <field name="stopper_product_id"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not range_config_id"/>
+
+                <field name="blade_product_id"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not range_config_id"/>
+
+                <field name="blade_qty"
+                       readonly="1"
+                       optional="show"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not range_config_id"/>
+
+                <field name="component_price_total"
+                       readonly="1"
+                       optional="show"
+                       column_invisible="not parent.has_shutter_products"
+                       invisible="not range_config_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
