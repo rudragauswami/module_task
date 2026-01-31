@@ -10,4 +10,3 @@ class ShutterRangeConfig(models.Model):
     max_height = fields.Float("Max Height", required=True)
     min_width = fields.Float("Min Width", required=True)
     max_width = fields.Float("Max Width", required=True)
-

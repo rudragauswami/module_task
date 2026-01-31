@@ -1,6 +1,6 @@
 <odoo>
 
-    <!-- Tree (List) View -->
+<!--    List) View &ndash;&gt;-->
     <record id="view_shutter_component_config_tree" model="ir.ui.view">
         <field name="name">shutter.component.config.tree</field>
         <field name="model">shutter.component.config</field>
