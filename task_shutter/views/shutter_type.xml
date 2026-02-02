@@ -23,8 +23,8 @@
 
                     <group>
                         <group>
-                            <field name="name" placeholder="e.g. Apron Shutter"/>
-                            <field name="code" placeholder="e.g. APR-001"/>
+                            <field name="name"/>
+                            <field name="code"/>
                         </group>
                         <group>
                             <field name="active" widget="boolean_toggle"/>
