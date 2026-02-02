@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <list string="Shutter Range Configuration">
                 <field name="shutter_type_id"/>
+                <field name="name"/>
                 <field name="min_height"/>
                 <field name="max_height"/>
                 <field name="min_width"/>
@@ -23,6 +24,9 @@
                 <sheet>
                     <group>
                         <field name="shutter_type_id"/>
+                    </group>
+                    <group string="Height Range" col="2">
+                        <field name="name"/>
                     </group>
 
                     <group string="Height Range" col="2">
