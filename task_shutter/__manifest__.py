@@ -8,6 +8,7 @@
     "category": "Education",
     "depends": ["base","sale","product"],
     "data": [
+            "security/ir.model.access.csv",
             "views/shutter_type.xml",
             "views/shutter_range.xml",
             "views/shutter_component.xml",

@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_all_user,
+access_shutter_type,shutter.type,model_shutter_type,base.group_user,1,1,1,1
+access_shutter_range,shutter.range.config,model_shutter_range_config,base.group_user,1,1,1,1
+access_shutter_component,shutter.component.config,model_shutter_component_config,base.group_user,1,1,1,1

@@ -14,11 +14,12 @@
 
                 <field name="shutter_height"
                        optional="show"
+                       readonly="0"
                        column_invisible="not parent.has_shutter_products"
                        invisible="not product_template_id.is_shutter_product"/>
 
                 <field name="shutter_width"
-                       optional="show"
+                       optional="show" readonly="0"
                        column_invisible="not parent.has_shutter_products"
                        invisible="not product_template_id.is_shutter_product"/>
 
