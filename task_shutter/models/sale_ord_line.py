@@ -28,7 +28,7 @@ class SaleOrderLine(models.Model):
     @api.constrains('shutter_height', 'shutter_width')
     def _check_shutter_dimensions(self):
         for line in self:
-            # 1. Skip if not a shutter product
+            # Skip if not a shutter product
             if not line.product_template_id.is_shutter_product:
                 continue
 
@@ -88,8 +88,6 @@ class SaleOrderLine(models.Model):
             line.range_config_id = range_rule
 
             if not range_rule:
-                # Warning logic is handled by Constraint on save,
-                # but we can leave this here for UI feedback if needed.
                 line.range_config_id = False
                 continue
 
