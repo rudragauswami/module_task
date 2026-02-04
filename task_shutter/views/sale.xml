@@ -26,6 +26,7 @@
                 <field name="lock_product_id"
                        readonly="0"
                        optional="show"
+                       options="{'no_create': True, 'no_create_edit': True}"
                        domain="[('id', 'in', allowed_lock_ids)]"
                        column_invisible="not parent.has_shutter_products"
                        invisible="not range_config_id"/>
@@ -33,6 +34,7 @@
                 <field name="stopper_product_id"
                        readonly="0"
                        optional="show"
+                       options="{'no_create': True, 'no_create_edit': True}"
                        domain="[('id', 'in', allowed_stopper_ids)]"
                        column_invisible="not parent.has_shutter_products"
                        invisible="not range_config_id"/>
@@ -40,6 +42,7 @@
                 <field name="blade_product_id"
                        readonly="0"
                        optional="show"
+                       options="{'no_create': True, 'no_create_edit': True}"
                        domain="[('id', 'in', allowed_blade_ids)]"
                        column_invisible="not parent.has_shutter_products"
                        invisible="not range_config_id"/>
