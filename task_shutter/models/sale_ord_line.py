@@ -23,12 +23,55 @@ class SaleOrderLine(models.Model):
                                            compute='_compute_allowed_components')
     allowed_blade_ids = fields.Many2many('product.product', relation='rel_line_allowed_blades',
                                          compute='_compute_allowed_components')
+    suggested_shutter_type_id = fields.Many2many('shutter.type',string="Suggested Shutter Type",
+                                                readonly=True
+                                                )
 
+    allowed_shutter_product_ids = fields.Many2many(
+        'product.product',
+        compute='_compute_allowed_shutter_products'
+    )
+
+    @api.depends('suggested_shutter_type_id')
+    def _compute_allowed_shutter_products(self):
+        for line in self:
+            if not line.suggested_shutter_type_id:
+                line.allowed_shutter_product_ids = False
+                continue
+
+            products = self.env['product.product'].search([
+                ('product_tmpl_id.is_shutter_product', '=', True),
+                ('product_tmpl_id.shutter_type_id', '=', line.suggested_shutter_type_id),
+            ])
+            line.allowed_shutter_product_ids = products
+
+    @api.onchange('shutter_height', 'shutter_width')
+    def _onchange_suggest_shutter_type(self):
+        for line in self:
+            line.suggested_shutter_type_id = False
+
+            # Only suggest if product NOT selected yet
+            if line.product_id:
+                return
+
+            if line.shutter_height <= 0 or line.shutter_width <= 0:
+                return
+
+            # Search matching range rules
+            range_rule = self.env['shutter.range.config'].search([
+                ('min_height', '<=', line.shutter_height),
+                ('max_height', '>=', line.shutter_height),
+                ('min_width', '<=', line.shutter_width),
+                ('max_width', '>=', line.shutter_width),
+            ], limit=1)
+
+            if range_rule:
+                line.suggested_shutter_type_id = range_rule.shutter_type_id
 
     @api.constrains('shutter_height', 'shutter_width')
     def _check_shutter_dimensions(self):
         for line in self:
-            # Skip if not a shutter product
+            # 1. Skip if not a shutter product
             if not line.product_template_id.is_shutter_product:
                 continue
 
@@ -44,6 +87,7 @@ class SaleOrderLine(models.Model):
             if w > 0 and h <= 0:
                 raise ValidationError(f"Missing Height! Please enter the Shutter Height for '{line.name}'.")
 
+            # 4. Check for VALID RANGE (Only runs if both dimensions exist)
             shutter_type = line.product_template_id.shutter_type_id
             range_rule = self.env['shutter.range.config'].search([
                 ('shutter_type_id', '=', shutter_type.id),
@@ -60,6 +104,9 @@ class SaleOrderLine(models.Model):
                     f"Please check the Shutter Range Rules."
                 )
 
+    # -------------------------------------------------------------------------
+    # EXISTING COMPUTE LOGIC
+    # -------------------------------------------------------------------------
     @api.depends('shutter_height', 'shutter_width', 'product_id')
     @api.onchange('shutter_height', 'shutter_width', 'product_id')
     def _compute_allowed_components(self):
@@ -72,6 +119,7 @@ class SaleOrderLine(models.Model):
                 line.range_config_id = False
                 continue
 
+            # NEW: Stop calculating if dimensions are missing/zero to prevent errors
             if line.shutter_height <= 0 or line.shutter_width <= 0:
                 line.range_config_id = False
                 continue
@@ -88,6 +136,8 @@ class SaleOrderLine(models.Model):
             line.range_config_id = range_rule
 
             if not range_rule:
+                # Warning logic is handled by Constraint on save,
+                # but we can leave this here for UI feedback if needed.
                 line.range_config_id = False
                 continue
 
@@ -136,6 +186,7 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    # Scanner field: Checks if ANY line is a shutter product
     has_shutter_products = fields.Boolean(
         compute="_compute_has_shutter_products",
         store=True
