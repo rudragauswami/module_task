@@ -6,13 +6,6 @@
                   name="Shutter Master"
                   sequence="10"/>
 
-        <!-- Configuration Menu -->
-        <menuitem id="menu_shutter_config"
-                  name="Configuration"
-                  parent="menu_shutter_root"
-                  action="action_shutter_component_config"
-                  sequence="100"/>
-
         <!-- Shutter Type Menu -->
         <menuitem id="menu_shutter_type_act"
                   name="Shutter Types"

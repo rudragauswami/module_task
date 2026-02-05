@@ -25,10 +25,16 @@
                         <group>
                             <field name="name"/>
                             <field name="code"/>
-                            <field name="range_id"/>
                         </group>
                         <group>
                             <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page>
+                                    <field name="range_id"/>
+                                </page>
+                            </notebook>
                         </group>
                     </group>
                 </sheet>
@@ -44,7 +50,6 @@
             <list string="Shutter Types" sample="1">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="range_id"/>
                 <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
