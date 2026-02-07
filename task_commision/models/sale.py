@@ -20,20 +20,15 @@ class SaleOrderLine(models.Model):
 
             subtotal_before_commission = base_price + component_price
 
-            if (
-                line.product_template_id.is_shutter_product
-                and line.shutter_height > 0
-                and line.shutter_width > 0
-            ):
+            if (line.product_template_id.is_shutter_product and line.shutter_height > 0 and line.shutter_width > 0):
                 shutter_type = line.product_template_id.shutter_type_id
 
-                rule = self.env['range.commission'].search([
-                    ('shutter_type_id', '=', shutter_type.id),
-                    ('min_height', '<=', line.shutter_height),
-                    ('max_height', '>=', line.shutter_height),
-                    ('min_width', '<=', line.shutter_width),
-                    ('max_width', '>=', line.shutter_width),
-                ], limit=1)
+                rule = self.env['range.commission'].search([('shutter_type_id', '=', shutter_type.id),
+                                                            ('min_height', '<=', line.shutter_height),
+                                                            ('max_height', '>=', line.shutter_height),
+                                                            ('min_width', '<=', line.shutter_width),
+                                                            ('max_width', '>=', line.shutter_width),
+                                                            ])
 
                 if rule:
                     commission = (subtotal_before_commission * rule.commission_rate) / 100.0
