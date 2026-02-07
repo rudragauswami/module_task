@@ -61,6 +61,7 @@
                 <field name="component_price_total"
                        readonly="1"
                        optional="show"
+                       force_save="1"
                        column_invisible="not parent.has_shutter_products"
                        invisible="not range_config_id"/>
 

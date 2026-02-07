@@ -1,0 +1,52 @@
+<odoo>
+    <record id="view_commission_rule_tree" model="ir.ui.view">
+        <field name="name">commission.rule.list</field>
+        <field name="model">range.commission</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="shutter_type_id"/>
+                <field name="min_height"/>
+                <field name="max_height"/>
+                <field name="min_width"/>
+                <field name="max_width"/>
+                <field name="commission_rate"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_commission_rule_form" model="ir.ui.view">
+        <field name="name">commission.rule.form</field>
+        <field name="model">range.commission</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Rule Name"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Dimensions">
+                            <field name="shutter_type_id"/>
+                            <field name="min_height"/>
+                            <field name="max_height"/>
+                            <field name="min_width"/>
+                            <field name="max_width"/>
+                        </group>
+                        <group string="Rate">
+                            <field name="commission_rate"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_commission_rules" model="ir.actions.act_window">
+        <field name="name">Commission Rules</field>
+        <field name="res_model">range.commission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

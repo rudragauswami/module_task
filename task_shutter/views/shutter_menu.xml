@@ -28,6 +28,5 @@
                   parent="menu_shutter_root"
                   action="action_shutter_component_config"
                   sequence="30"/>
-
     </data>
 </odoo>
