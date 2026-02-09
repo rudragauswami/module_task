@@ -1,16 +1,22 @@
 <odoo>
-    <record id="view_order_form_inherit_commission" model="ir.ui.view">
-        <field name="name">sale.order.form.commission</field>
+    <record id="view_order_form_inherit_commission_fix" model="ir.ui.view">
+        <field name="name">sale.order.form.commission.fix</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='price_subtotal']" position="before">
-                <field name="commission_amount"
-                       string="Commission"
-                       optional="show"
-                       readonly="1"
-                       force_save="1"/>
+
+            <xpath expr="//field[@name='order_line']//list//field[@name='price_unit']" position="replace">
+                <field name="manual_base_price" column_invisible="1"/>
+
+                <field name="visual_unit_price" string="Unit Price" required="1"/>
+
+                <field name="price_unit" column_invisible="1" force_save="1"/>
             </xpath>
+
+            <xpath expr="//field[@name='order_line']//list//field[@name='price_subtotal']" position="before">
+                <field name="commission_amount" optional="show" string="Comm. ($)"/>
+            </xpath>
+
         </field>
     </record>
 </odoo>
