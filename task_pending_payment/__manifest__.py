@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "Commision Master",
+    "name": "Customer’s Pending Payment Amount",
     "version": "1.0",
-    "summary": "CALCULATES COMMISION AND ADDS IT TO THE TOTAL AMOUNT",
+    "summary": "This will help sales staff know if the customer already has unpaid invoices before confirming new orders.",
     "description": """""",
     "description": """""",
     "author": "Reliution",
     "category": "Education",
-    "depends": ["base","sale","product","task_shutter"],
+    "depends": ["base","sale"],
     "data": [
-           "views/commision.xml",
-            "views/sale.xml",
-            "views/menu.xml"
-           ],
+        "views/sale.xml",
+    ],
     "installable": True,
     "application": True,
     "auto_install": False,
