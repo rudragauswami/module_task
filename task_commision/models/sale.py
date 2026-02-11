@@ -4,36 +4,20 @@ from odoo import api, fields, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    manual_base_price = fields.Float(string="Manual Base Price",digits='Product Price',default=0.0)
+    commission_amount = fields.Float(
+        string="Commission",
+        compute="_compute_commission",
+        store=True
+    )
 
-    visual_unit_price = fields.Float(string="Unit Price",
-                                     digits='Product Price',compute='_compute_visual_price',
-                                     inverse='_set_visual_price',store=True,readonly=False,)
-
-    commission_amount = fields.Monetary(string="Commission",store=True,
-                                        readonly=True,currency_field='currency_id')
-
-    @api.depends('manual_base_price', 'component_price_total')
-    def _compute_visual_price(self):
+    @api.depends('product_id', 'shutter_height', 'shutter_width', 'component_price_total', 'product_uom_qty')
+    def _compute_commission(self):
         for line in self:
-            comp_val = getattr(line, 'component_price_total', 0.0)
-            line.visual_unit_price = line.manual_base_price + comp_val
+            commission = 0.0
+            base_price = line.product_id.list_price if line.product_id else 0.0
+            component_price = line.component_price_total or 0.0
 
-    def _set_visual_price(self):
-        for line in self:
-            comp_val = getattr(line, 'component_price_total', 0.0)
-            line.manual_base_price = line.visual_unit_price - comp_val
-
-
-    @api.onchange('product_id', 'shutter_height', 'shutter_width', 'visual_unit_price', 'product_uom_qty',
-                  'component_price_total')
-    def _recalculate_prices(self):
-        for line in self:
-            if line.product_id and line.manual_base_price == 0.0 and not line.component_price_total:
-                line.manual_base_price = line.product_id.list_price
-
-            base_total_for_comm = line.visual_unit_price * line.product_uom_qty
-            comm_val = 0.0
+            subtotal_before_commission = (base_price + component_price) * line.product_uom_qty
 
             if (line.product_id and
                     hasattr(line, 'product_template_id') and
@@ -41,8 +25,10 @@ class SaleOrderLine(models.Model):
                     line.shutter_height > 0 and
                     line.shutter_width > 0):
 
+                shutter_type = line.product_template_id.shutter_type_id
+
                 rule = self.env['range.commission'].search([
-                    ('shutter_type_id', '=', line.product_template_id.shutter_type_id.id),
+                    ('shutter_type_id', '=', shutter_type.id),
                     ('min_height', '<=', line.shutter_height),
                     ('max_height', '>=', line.shutter_height),
                     ('min_width', '<=', line.shutter_width),
@@ -50,11 +36,60 @@ class SaleOrderLine(models.Model):
                 ], limit=1)
 
                 if rule:
-                    comm_val = (base_total_for_comm * rule.commission_rate) / 100.0
+                    commission = (subtotal_before_commission * rule.commission_rate) / 100.0
 
-            line.commission_amount = comm_val
+            line.commission_amount = commission
 
-            comm_per_unit = 0.0
-            if line.product_uom_qty > 0:
-                comm_per_unit = comm_val / line.product_uom_qty
-            line.price_unit = line.visual_unit_price + comm_per_unit
+    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_ids', 'commission_amount','component_price_total')
+    def _compute_amount(self):
+        super(SaleOrderLine, self)._compute_amount()
+        for line in self:
+            if line.commission_amount:
+                line.price_subtotal+=line.commission_amount
+
+                line.price_total+=line.commission_amount
+
+
+class AccountTax(models.Model):
+    _inherit = 'account.tax'
+
+    @api.model
+    def _get_tax_totals_summary(self, base_lines, currency, company, cash_rounding=None):
+        """
+        Override to inject 'commission_amount' into the tax widget totals.
+        Since commission is added directly to subtotal , we must add it
+        to the 'Untaxed Amount' and 'Total' in the summary.
+        """
+
+        summary = super()._get_tax_totals_summary(base_lines, currency, company, cash_rounding)
+
+        total_commission_currency = 0.0
+        total_commission_base = 0.0
+
+        for line in base_lines:
+            record = line.get('record')
+
+
+            if record and record._name == 'sale.order.line' and getattr(record, 'commission_amount', 0.0):
+                amount = record.commission_amount
+
+                total_commission_currency += amount
+
+                rate = line.get('rate', 1.0)
+                if rate:
+                    total_commission_base += amount / rate
+
+        if total_commission_currency != 0.0:
+
+            summary['base_amount_currency'] += total_commission_currency
+            summary['base_amount'] += total_commission_base
+
+            summary['total_amount_currency'] += total_commission_currency
+            summary['total_amount'] += total_commission_base
+
+            for subtotal in summary.get('subtotals', []):
+                if subtotal.get('name') == 'Untaxed Amount':
+                    subtotal['base_amount_currency'] += total_commission_currency
+                    subtotal['base_amount'] += total_commission_base
+
+        return summary

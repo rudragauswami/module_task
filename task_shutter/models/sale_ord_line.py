@@ -98,37 +98,37 @@ class SaleOrderLine(models.Model):
                 line.allowed_stopper_ids = valid_configs.mapped('stopper_product_id')
                 line.allowed_blade_ids = valid_configs.mapped('blade_product_id')
 
-    @api.onchange('lock_product_id', 'stopper_product_id', 'blade_product_id')
-    def _onchange_components_manual(self):
-        if self.blade_product_id and self.range_config_id:
-            relevant_config = self.env['shutter.component.config'].search([
-                ('range_config_id', '=', self.range_config_id.id),
-                ('blade_product_id', '=', self.blade_product_id.id)
-            ], limit=1)
-
-            if relevant_config and relevant_config.blade_qty_formula:
-                local_dict = {'height': self.shutter_height, 'width': self.shutter_width}
-                try:
-                    self.blade_qty = safe_eval(relevant_config.blade_qty_formula, local_dict)
-                except Exception:
-                    self.blade_qty = 0.0
-            else:
-                pass
-        else:
-            self.blade_qty = 0.0
-
-        extra = 0.0
-        if self.lock_product_id:
-            extra += self.lock_product_id.list_price
-        if self.stopper_product_id:
-            extra += self.stopper_product_id.list_price
-        if self.blade_product_id:
-            extra += (self.blade_product_id.list_price * self.blade_qty)
-
-        self.component_price_total = extra
-
-        base_price = self.product_id.list_price if self.product_id else 0.0
-        self.price_unit = base_price + extra
+    # @api.onchange('lock_product_id', 'stopper_product_id', 'blade_product_id')
+    # def _onchange_components_manual(self):
+    #     if self.blade_product_id and self.range_config_id:
+    #         relevant_config = self.env['shutter.component.config'].search([
+    #             ('range_config_id', '=', self.range_config_id.id),
+    #             ('blade_product_id', '=', self.blade_product_id.id)
+    #         ], limit=1)
+    #
+    #         if relevant_config and relevant_config.blade_qty_formula:
+    #             local_dict = {'height': self.shutter_height, 'width': self.shutter_width}
+    #             try:
+    #                 self.blade_qty = safe_eval(relevant_config.blade_qty_formula, local_dict)
+    #             except Exception:
+    #                 self.blade_qty = 0.0
+    #         else:
+    #             pass
+    #     else:
+    #         self.blade_qty = 0.0
+    #
+    #     extra = 0.0
+    #     if self.lock_product_id:
+    #         extra += self.lock_product_id.list_price
+    #     if self.stopper_product_id:
+    #         extra += self.stopper_product_id.list_price
+    #     if self.blade_product_id:
+    #         extra += (self.blade_product_id.list_price * self.blade_qty)
+    #
+    #     self.component_price_total = extra
+    #
+    #     base_price = self.product_id.list_price if self.product_id else 0.0
+    #     self.price_unit = base_price + extra
 
 
 class SaleOrder(models.Model):
