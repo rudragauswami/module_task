@@ -6,8 +6,17 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="outstanding_amount"
-                       widget="monetary"
-                       options="{'currency_field': 'currency_id'}"/>
+                       widget="monetary"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_form_inherit_credit" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.credit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="user_credit"/>
             </xpath>
         </field>
     </record>
