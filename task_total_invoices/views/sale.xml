@@ -8,6 +8,7 @@
                 <field name="total_invoices"/>
                 <field name="total_payments_done"/>
                 <field name="total_payments_remaining"/>
+                <field name="total_left_credit"/>
             </xpath>
         </field>
     </record>

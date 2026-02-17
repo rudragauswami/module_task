@@ -53,10 +53,9 @@ class Sale(models.Model):
 
                 if new_total > limit:
                     raise ValidationError(
-                        f"Cannot Confirm Order! \n\n"
+                        f"Cannot Confirm Order! \n"
                         f"This customer has exceeded their credit limit of {limit}.\n"
-                        f"Total debt after this order would be {new_total}.\n\n"
-                        f"You can save this quotation, but you will NOT be able to confirm it.\n\n"
+                        f"Total debt after this order would be {new_total}.\n"
                         "Please request a payment or increase the credit limit."
                     )
         return super().action_confirm()
