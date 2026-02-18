@@ -38,12 +38,15 @@ class SaleOrder(models.Model):
         for pid, total_qty in paid_totals.items():
             product = self.env['product.product'].browse(pid)
 
-            if product.promo_threshold > 0:
-                multiplier = int(total_qty // product.promo_threshold)
+        #     if product.promo_threshold > 0:
+        #         multiplier = int(total_qty // product.promo_threshold)
+        #
+        #         if multiplier > 0:
+        #             reward_qty = multiplier * product.promo_reward
+        #             needed_gifts[pid] = reward_qty
 
-                if multiplier > 0:
-                    reward_qty = multiplier * product.promo_reward
-                    needed_gifts[pid] = reward_qty
+            if product.promo_threshold > 0 and total_qty >= product.promo_threshold:
+                needed_gifts[pid] = product.promo_reward
 
         current_gift_lines = {}
 
