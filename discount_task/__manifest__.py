@@ -9,6 +9,7 @@
     "category": "Education",
     "depends": ["base","sale"],
     "data": [
+        "security/ir.model.access.csv",
         "views/sale.xml",
     ],
     "installable": True,
