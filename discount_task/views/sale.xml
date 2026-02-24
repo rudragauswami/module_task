@@ -1,4 +1,23 @@
 <odoo>
+    <record id="view_order_form_auto_discount_percent" model="ir.ui.view">
+        <field name="name">sale.order.form.auto.discount.percent</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='order_line']/list//field[@name='discount']" position="attributes">
+
+                <attribute name="groups"></attribute>
+
+                <attribute name="readonly">1</attribute>
+
+                <attribute name="force_save">1</attribute>
+
+            </xpath>
+
+        </field>
+    </record>
+
     <record id="view_volume_discount_rule_tree" model="ir.ui.view">
         <field name="name">volume.discount.rule.tree</field>
         <field name="model">volume.discount.rule</field>
