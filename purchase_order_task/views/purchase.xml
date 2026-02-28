@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_purchase_order_form_inherit_hierarchy" model="ir.ui.view">
-        <field name="name">purchase.order.form.hierarchy</field>
+    <record id="view_purchase_order_form_inherit_approval" model="ir.ui.view">
+        <field name="name">purchase.order.form.approval.inherit</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
@@ -21,14 +21,12 @@
                 <field name="is_current_approver" invisible="1"/>
                 <field name="is_approval_pending" invisible="1"/>
             </xpath>
-            <xpath expr="//page[@name='products']//field[@name='order_line']" position="before">
 
+            <xpath expr="//page[@name='products']//field[@name='order_line']" position="before">
                 <div class="alert alert-info d-flex align-items-center" role="alert" invisible="not pending_approver_ids" style="margin-bottom: 15px;">
                     <strong style="margin-right: 10px;">Waiting for Approval From: </strong>
-
                     <field name="pending_approver_ids" widget="many2many_avatar_user" readonly="1"/>
                 </div>
-
             </xpath>
 
             <xpath expr="//notebook" position="inside">
@@ -37,7 +35,7 @@
                         <list editable="bottom">
                             <field name="sequence" widget="handle"/>
                             <field name="user_id"/>
-                            <field name="state" readonly="1"/>
+                            <field name="state" readonly="1" widget="badge" decoration-success="state == 'approved'" decoration-warning="state == 'pending'"/>
                         </list>
                     </field>
                 </page>
