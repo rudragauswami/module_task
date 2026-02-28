@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_order_form_inherit_hierarchy" model="ir.ui.view">
+        <field name="name">purchase.order.form.hierarchy</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_step_approve" type="object" string="Approve" class="oe_highlight" invisible="not is_current_approver"/>
+            </xpath>
+
+            <xpath expr="//button[@name='button_confirm'][1]" position="attributes">
+                <attribute name="invisible">is_approval_pending or state not in ['draft']</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_confirm'][2]" position="attributes">
+                <attribute name="invisible">is_approval_pending or state not in ['sent']</attribute>
+            </xpath>
+
+            <xpath expr="//sheet" position="inside">
+                <field name="is_current_approver" invisible="1"/>
+                <field name="is_approval_pending" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='products']//field[@name='order_line']" position="before">
+
+                <div class="alert alert-info d-flex align-items-center" role="alert" invisible="not pending_approver_ids" style="margin-bottom: 15px;">
+                    <strong style="margin-right: 10px;">Waiting for Approval From: </strong>
+
+                    <field name="pending_approver_ids" widget="many2many_avatar_user" readonly="1"/>
+                </div>
+
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Approval Hierarchy">
+                    <field name="approval_line_ids" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="user_id"/>
+                            <field name="state" readonly="1"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

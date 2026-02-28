@@ -6,7 +6,7 @@ class VolumeDiscountRule(models.Model):
     _description = 'Dynamic Volume Discount Rules'
     _order = 'min_qty desc'
 
-    name = fields.Char(string="Rule Name", required=True, help="e.g., 'Tier 1 (11+ items)'")
+    name = fields.Char(string="Rule Name", required=True)
     min_qty = fields.Float(string="Minimum Quantity", required=True)
     discount_pct = fields.Float(string="Discount (%)", required=True)
     active = fields.Boolean(string="Active", default=True)
