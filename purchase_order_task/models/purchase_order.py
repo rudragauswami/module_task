@@ -47,10 +47,30 @@ class PurchaseOrder(models.Model):
                 order.is_current_approver = True
 
     def write(self, vals):
+        if 'approval_line_ids' in vals:
+            for order in self:
+                if order.state not in ['draft', 'sent']:
+                    raise UserError("Sneaky! You cannot modify the approval hierarchy after the process has started.")
+
+        if 'order_line' in vals:
+            for order in self:
+                if order.state == 'to approve':
+                    raise UserError(
+                        "Loophole closed! You cannot change products or quantities while the order is waiting for approvals. Please cancel and reset to draft to make changes.")
+
         for order in self:
-            if order.create_uid and order.create_uid != self.env.user and not self.env.su:
-                raise UserError("Only the user who created this Purchase Order is allowed to edit it.")
+            if order.state in ['draft', 'sent', 'to approve']:
+                if order.create_uid and order.create_uid != self.env.user and not self.env.su:
+                    raise UserError("Only the user who created this Purchase Order is allowed to edit it.")
+
         return super().write(vals)
+
+    def button_draft(self):
+        res = super().button_draft()
+        for order in self:
+            order.approval_line_ids.write({'state': 'pending'})
+        return res
+
 
     def button_confirm(self):
         for order in self:
