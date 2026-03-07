@@ -1,0 +1,36 @@
+<odoo>
+<!--Library Management Book borrow Form view-->
+    <record id="view_lib_borrow_form_view" model="ir.ui.view">
+        <field name="name">Library management book borrow form view</field>
+        <field name="model">library.borrow</field>
+        <field name="arch" type="xml">
+            <form string="Library Book Borrow">
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <field name="borrow_date"/>
+                <field name="return_date"/>
+                <field name="state"/>
+            </form>
+        </field>
+    </record>
+<!--    library book borrow list view-->
+    <record id="view_lib_borrow_list_view" model="ir.ui.view">
+        <field name="name">Library management book borrow list view</field>
+        <field name="model">library.borrow</field>
+        <field name="arch" type="xml">
+            <list string="Library Management">
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <field name="borrow_date"/>
+                <field name="return_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="borrow_action" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="res_model">library.borrow</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

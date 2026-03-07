@@ -1,0 +1,34 @@
+<odoo>
+<!--Library Management Member Form view-->
+    <record id="view_lib_member_form_view" model="ir.ui.view">
+        <field name="name">Library management Member form view</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <form string="Library Member">
+                <field name="partner_id"/>
+                <field name="membership_date"/>
+                <field name="borrow_ids"/>
+                <field name="active"/>
+            </form>
+        </field>
+    </record>
+<!--    library Member list view-->
+    <record id="view_lib_member_list_view" model="ir.ui.view">
+        <field name="name">Library management member list view</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <list string="Library Member">
+                <field name="partner_id"/>
+                <field name="membership_date"/>
+                <field name="borrow_ids"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="member_action" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

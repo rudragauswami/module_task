@@ -1,6 +1,6 @@
 {
     'name': 'Custom MRP Priority Stars',
-    'version': '18.0.1.0.0', # અહી 18.0 લખવું જરૂરી છે
+    'version': '18.0.1.0.0',
     'category': 'Manufacturing/Manufacturing',
     'summary': 'Extends Manufacturing Order priority to 3 stars with color decorations',
     'author': 'Rudrapuri Gauswami',
@@ -12,6 +12,6 @@
     'installable': True,
     'application': True,
     'license': 'OPL-1',
-    'price': 20.00,
+    'price': 19.99,
     'currency': 'USD',
 }
