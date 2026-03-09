@@ -1,18 +1,24 @@
 <odoo>
-<!--Library Management Member Form view-->
+    <!--Library Management Member Form view-->
     <record id="view_lib_member_form_view" model="ir.ui.view">
         <field name="name">Library management Member form view</field>
         <field name="model">library.member</field>
         <field name="arch" type="xml">
             <form string="Library Member">
-                <field name="partner_id"/>
-                <field name="membership_date"/>
-                <field name="borrow_ids"/>
-                <field name="active"/>
+                <group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="membership_date"/>
+                    </group>
+                    <group>
+                        <field name="borrow_ids"/>
+                        <field name="active"/>
+                    </group>
+                </group>
             </form>
         </field>
     </record>
-<!--    library Member list view-->
+    <!--    library Member list view-->
     <record id="view_lib_member_list_view" model="ir.ui.view">
         <field name="name">Library management member list view</field>
         <field name="model">library.member</field>

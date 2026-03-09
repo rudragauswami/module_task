@@ -1,11 +1,13 @@
 from odoo import api, fields, models
 
-class lib_member(models.Model):
+
+# 1. Standardized to CamelCase
+class LibraryMember(models.Model):
     _name = 'library.member'
     _description = 'Library Member'
+    _rec_name = 'partner_id'
 
-
-    partner_id = fields.Many2one('res.partner',required=True,string='Linked contact')
-    membership_date = fields.Datetime(string='Date of Registration')
-    borrow_ids = fields.One2many('library.borrow','member_id',string='Borrow History')
-    active = fields.Boolean(default=True,string='Is Active Member')
+    partner_id = fields.Many2one('res.partner', required=True, string='Linked Contact')
+    membership_date = fields.Datetime(string='Date of Registration', default=fields.Datetime.now)
+    borrow_ids = fields.One2many('library.borrow', 'member_id', string='Borrow History')
+    active = fields.Boolean(default=True, string='Is Active Member')
