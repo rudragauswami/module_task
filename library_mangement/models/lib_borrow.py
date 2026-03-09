@@ -7,6 +7,7 @@ class LibraryBorrow(models.Model):
     _description = 'Library Borrow'
     _rec_name = 'member_id'
 
+
     book_id = fields.Many2one('library.book', string='Book', required=True)
     member_id = fields.Many2one('library.member', string='Member', required=True)
     borrow_date = fields.Date(string='Borrow Date', default=fields.Date.context_today)
@@ -17,17 +18,15 @@ class LibraryBorrow(models.Model):
     def action_return(self):
         for record in self:
             record.state = 'returned'
-            record.return_date = fields.Date.context_today(record)
-            record.book_id.state = 'available'
 
     @api.constrains('book_id', 'state')
-    def _check_book_availability(self):
+    def _check_book_available(self):
         for record in self:
             if record.state == 'borrowed' and record.book_id.state == 'borrowed':
                 other_active_borrows = self.env['library.borrow'].search([
                     ('book_id', '=', record.book_id.id),
-                    ('state', '=', 'borrowed'),  # Also updated this to match
+                    ('state', '=', 'borrowed'),
                     ('id', '!=', record.id)
                 ])
                 if other_active_borrows:
-                    raise ValidationError(f"'{record.book_id.name}' is currently checked out by someone else!")
+                    raise ValidationError(f"'{record.book_id.name}' is currently borrowed by someone else!")

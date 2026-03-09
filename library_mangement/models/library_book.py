@@ -9,28 +9,18 @@ class LibraryBook(models.Model):
     name = fields.Char(string="Book Title", required=True)
     author_id = fields.Many2one('res.partner', string="Book Author", required=True)
     isbn = fields.Char(string="ISBN Number")
-
     category_id = fields.Many2one('library.category', string="Book Category")
-
-    state = fields.Selection([
-        ('available', 'Available'),
-        ('borrowed', 'Borrowed'),
-        ('lost', 'Lost')
-    ], string="Book State", default='available', tracking=True)
-
-    borrow_ids = fields.One2many('library.borrow', 'book_id', string="Borrow History")
-
-    borrow_count = fields.Integer(
-        compute="_compute_total_count",
-        string="Borrow Count",
-        store=True
-    )
+    state = fields.Selection([('available', 'Available'),('borrowed', 'Borrowed'),
+                              ('lost', 'Lost')], string="Book State",default='available',
+                              tracking=True)
+    borrow_count = fields.Integer(compute="_compute_total_count",string="Borrow Count",
+                                  store=True)
 
     @api.depends('borrow_ids')
     def _compute_total_count(self):
         for book in self:
-            # Simply count how many borrow records are attached to this book
-            book.borrow_count = len(book.borrow_ids)
+            pass
+
 
     def action_borrow(self):
         for book in self:

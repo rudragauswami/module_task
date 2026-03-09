@@ -1,7 +1,6 @@
 from odoo import api, fields, models
 
 
-# 1. Standardized to CamelCase
 class LibraryMember(models.Model):
     _name = 'library.member'
     _description = 'Library Member'
