@@ -1,0 +1,13 @@
+<templates xml:space="preserve">
+
+    <t t-inherit="mail.MessagingMenu" t-inherit-mode="extension">
+
+        <xpath expr="//button[hasclass('bg-transparent')]" position="attributes">
+
+            <attribute name="class" add="d-none" separator=" "/>
+
+        </xpath>
+
+    </t>
+
+</templates>

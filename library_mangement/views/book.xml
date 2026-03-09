@@ -1,0 +1,91 @@
+<odoo>
+    <!--Library Management Book Form view-->
+    <record id="view_lib_book_form_view" model="ir.ui.view">
+        <field name="name">Library management form view</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Library Management">
+                <header>
+                    <button name="action_borrow" type="object" string="Borrow" class="oe_highlight"/>
+                </header>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="author_id"/>
+                        <field name="isbn"/>
+                    </group>
+                    <group>
+                        <field name="category_id"/>
+                        <field name="state"/>
+                        <field name="borrow_count"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <!--    library book list view-->
+    <record id="view_lib_book_list_view" model="ir.ui.view">
+        <field name="name">Library management list view</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list string="Library Management">
+                <field name="name"/>
+                <field name="author_id"/>
+                <field name="isbn"/>
+                <field name="category_id"/>
+                <field name="state"/>
+                <field name="borrow_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!--    kanban view for books-->
+    <record id="view_lib_book_kanban_view" model="ir.ui.view">
+        <field name="name">Library Books Kanban View</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div>
+                                <field name="name"/>
+                                <br/>
+                                <field name="isbn"/>
+                                <br/>
+                                <field name="state"/>
+                                <br/>
+                                <field name="category_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--    search view for the library management with the filters of by state, by category, by author-->
+    <record id="view_lib_book_search_view" model="ir.ui.view">
+        <field name="name">Library management search view</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search string="Library Management">
+                <field name="author_id"/>
+                <field name="category_id"/>
+                <field name="state"/>
+                <filter string="Borrowed" name="borrowed_book" domain="[('state', '=', 'borrowed')]"/>
+                <separator/>
+                <filter string="Available" name="available" domain="[('state', '=', 'available')]"/>
+                <separator/>
+                <filter string="Lost" name="Lost" domain="[('state', '=', 'lost')]"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="book_action" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+</odoo>

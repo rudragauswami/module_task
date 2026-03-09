@@ -1,13 +1,17 @@
 {
     'name': 'Custom MRP Priority Stars',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     'category': 'Manufacturing/Manufacturing',
     'summary': 'Extends Manufacturing Order priority to 3 stars with color decorations',
-    'depends': ['mrp','stock'],
+    'author': 'Rudrapuri Gauswami',
+    'depends': ['mrp', 'stock'],
     'data': [
         'views/mrp.xml',
     ],
+    'images': ['static/description/banner.png'],
     'installable': True,
-    'application': False,
-    'license': 'LGPL-3',
+    'application': True,
+    'license': 'OPL-1',
+    'price': 19.99,
+    'currency': 'USD',
 }
