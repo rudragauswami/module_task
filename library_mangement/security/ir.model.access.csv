@@ -1,7 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_lib_man_user,lib.man.user,model_library_book,group_lib_management_user,1,0,0,0
-access_lib_man_borrow_user,lib.man.borrow.user,model_library_borrow,group_lib_management_user,0,0,1,0
+access_lib_man_user,lib.man.user,model_library_book,group_lib_management_user,1,1,0,0
+access_lib_man_borrow_user,lib.man.borrow.user,model_library_borrow,group_lib_management_user,1,1,1,0
+access_lib_man_category_user,lib.man.category.user,model_library_category,group_lib_management_user,1,0,0,0
+access_lib_man_member_user,lib.man.member.user,model_library_member,group_lib_management_user,1,0,1,0
 access_lib_man_manager,lib.man.man,model_library_book,group_lib_management_manager,1,1,1,1
 access_lib_man_members_manager,lib.man.mem.man,model_library_member,group_lib_management_manager,1,1,1,1
 access_lib_man_borrow_manager,lib.man.borrow.man,model_library_borrow,group_lib_management_manager,1,1,1,1
-
+access_lib_man_category_manager,lib.man.category.man,model_library_category,group_lib_management_manager,1,1,1,1

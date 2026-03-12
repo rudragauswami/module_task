@@ -1,39 +1,63 @@
 <odoo>
-    <!--Library Management Member Form view-->
+<!--    form view-->
     <record id="view_lib_member_form_view" model="ir.ui.view">
-        <field name="name">Library management Member form view</field>
+        <field name="name">library.member.form</field>
         <field name="model">library.member</field>
         <field name="arch" type="xml">
             <form string="Library Member">
-                <group>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="partner_id" placeholder="Select Contact..."/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="partner_id"/>
-                        <field name="membership_date"/>
+                        <group>
+                            <field name="membership_date"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="borrow_ids"/>
-                        <field name="active"/>
-                    </group>
-                </group>
+
+                    <notebook>
+                        <page string="Borrow History" name="borrow_history">
+                            <field name="borrow_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
             </form>
         </field>
     </record>
-    <!--    library Member list view-->
+
+<!--    list view-->
     <record id="view_lib_member_list_view" model="ir.ui.view">
-        <field name="name">Library management member list view</field>
+        <field name="name">library.member.list</field>
         <field name="model">library.member</field>
         <field name="arch" type="xml">
-            <list string="Library Member">
+            <list string="Library Members">
                 <field name="partner_id"/>
                 <field name="membership_date"/>
-                <field name="borrow_ids"/>
-                <field name="active"/>
+                <field name="active" widget="boolean_toggle"/>
             </list>
         </field>
     </record>
 
+<!--    Search View-->
+    <record id="view_lib_member_search_view" model="ir.ui.view">
+        <field name="name">library.member.search</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <search string="Search Library Members">
+                <field name="partner_id"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+<!--    action-->
     <record id="member_action" model="ir.actions.act_window">
-        <field name="name">Book</field>
+        <field name="name">Members</field>
         <field name="res_model">library.member</field>
         <field name="view_mode">list,form</field>
     </record>

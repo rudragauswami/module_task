@@ -5,7 +5,7 @@
     "summary": "CALCULATES COMMISION AND ADDS IT TO THE TOTAL AMOUNT",
     "description": """""",
     "description": """""",
-    "author": "Reliution",
+    "author": "Rudra",
     "category": "Education",
     "depends": ["base","sale","product","task_shutter"],
     "data": [

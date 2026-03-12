@@ -5,7 +5,7 @@
     "summary": "This will help sales staff know if the customer already has unpaid invoices before confirming new orders.",
     "description": """""",
     "description": """""",
-    "author": "Reliution",
+    "author": "Rudra",
     "category": "Education",
     "depends": ["base","sale"],
     "data": [

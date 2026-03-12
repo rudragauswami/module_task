@@ -1,61 +1,83 @@
 <odoo>
-    <!--Library Management Book Form view-->
+<!--    form view for the library book model-->
     <record id="view_lib_book_form_view" model="ir.ui.view">
-        <field name="name">Library management form view</field>
+        <field name="name">library.book.form</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
-            <form string="Library Management">
+            <form string="Library Book">
                 <header>
-                    <button name="action_borrow" type="object" string="Borrow" class="oe_highlight"/>
+                    <button name="action_borrow" type="object" string="Borrow" class="oe_highlight" invisible="state != 'available'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="available,borrowed,lost"/>
                 </header>
-                <group>
+                <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="author_id"/>
-                        <field name="isbn"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="author_id"/>
+                            <field name="isbn"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="borrow_count" readonly="1"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="category_id"/>
-                        <field name="state"/>
-                        <field name="borrow_count"/>
-                    </group>
-                </group>
+                    <notebook>
+                        <page string="Borrow History">
+                            <field name="borrow_ids" readonly="1">
+                                <list string="History">
+                                    <field name="member_id"/>
+                                    <field name="borrow_date"/>
+                                    <field name="return_date"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
             </form>
         </field>
     </record>
-    <!--    library book list view-->
+
+<!--    list view for the book module-->
     <record id="view_lib_book_list_view" model="ir.ui.view">
-        <field name="name">Library management list view</field>
+        <field name="name">library.book.list</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
-            <list string="Library Management">
+            <list string="Library Books">
                 <field name="name"/>
                 <field name="author_id"/>
                 <field name="isbn"/>
                 <field name="category_id"/>
-                <field name="state"/>
-                <field name="borrow_count"/>
+                <field name="state" widget="badge" decoration-success="state == 'available'" decoration-warning="state == 'borrowed'" decoration-danger="state == 'lost'"/>
             </list>
         </field>
     </record>
 
-    <!--    kanban view for books-->
+<!--    kanban view for the ook module-->
     <record id="view_lib_book_kanban_view" model="ir.ui.view">
-        <field name="name">Library Books Kanban View</field>
+        <field name="name">library.book.kanban</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <kanban>
                 <templates>
                     <t t-name="kanban-box">
-                        <div>
-                            <div>
-                                <field name="name"/>
-                                <br/>
-                                <field name="isbn"/>
-                                <br/>
-                                <field name="state"/>
-                                <br/>
-                                <field name="category_id"/>
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <ul>
+                                    <li>Author: <field name="author_id"/></li>
+                                    <li>ISBN: <field name="isbn"/></li>
+                                </ul>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="category_id"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="state" widget="badge" decoration-success="state == 'available'" decoration-warning="state == 'borrowed'" decoration-danger="state == 'lost'"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </t>
@@ -64,28 +86,32 @@
         </field>
     </record>
 
-    <!--    search view for the library management with the filters of by state, by category, by author-->
+<!--    search view for the book module-->
     <record id="view_lib_book_search_view" model="ir.ui.view">
-        <field name="name">Library management search view</field>
+        <field name="name">library.book.search</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
-            <search string="Library Management">
+            <search string="Library Books">
+                <field name="name"/>
                 <field name="author_id"/>
                 <field name="category_id"/>
-                <field name="state"/>
-                <filter string="Borrowed" name="borrowed_book" domain="[('state', '=', 'borrowed')]"/>
-                <separator/>
                 <filter string="Available" name="available" domain="[('state', '=', 'available')]"/>
-                <separator/>
-                <filter string="Lost" name="Lost" domain="[('state', '=', 'lost')]"/>
+                <filter string="Borrowed" name="borrowed_book" domain="[('state', '=', 'borrowed')]"/>
+                <filter string="Lost" name="lost" domain="[('state', '=', 'lost')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Author" name="group_author" context="{'group_by': 'author_id'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
             </search>
         </field>
     </record>
 
-
+<!--    action for the book module-->
     <record id="book_action" model="ir.actions.act_window">
-        <field name="name">Book</field>
+        <field name="name">Books</field>
         <field name="res_model">library.book</field>
-        <field name="view_mode">list,form,kanban</field>
+        <field name="view_mode">list,kanban,form</field>
     </record>
+
 </odoo>

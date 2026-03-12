@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="demo_category_fiction" model="library.category">
+            <field name="name">Science Fiction (sci-fi)</field>
+        </record>
+        <record id="demo_category_fantasy" model="library.category">
+            <field name="name">Fantasy</field>
+        </record>
+        <record id="demo_category_history" model="library.category">
+            <field name="name">History</field>
+        </record>
+        <record id="demo_category_science" model="library.category">
+            <field name="name">Science</field>
+        </record>
+        <record id="demo_category_novella" model="library.category">
+            <field name="name">Novella, allegorical fiction</field>
+        </record>
+
+        <record id="demo_author_bach" model="res.partner">
+            <field name="name">Richard Bach</field>
+        </record>
+        <record id="demo_author_rowling" model="res.partner">
+            <field name="name">J.K. Rowling</field>
+        </record>
+        <record id="demo_author_tolkien" model="res.partner">
+            <field name="name">J.R.R. Tolkien</field>
+        </record>
+        <record id="demo_author_asimov" model="res.partner">
+            <field name="name">Isaac Asimov</field>
+        </record>
+        <record id="demo_author_sagan" model="res.partner">
+            <field name="name">Carl Sagan</field>
+        </record>
+
+        <record id="demo_book_1" model="library.book">
+            <field name="name">Jonathan Livingston Seagull</field>
+            <field name="author_id" ref="demo_author_bach"/>
+            <field name="isbn">978-1-4767-9331-3</field>
+            <field name="category_id" ref="demo_category_novella"/>
+            <field name="state">available</field>
+        </record>
+
+        <record id="demo_book_2" model="library.book">
+            <field name="name">Harry Potter and the Sorcerer's Stone</field>
+            <field name="author_id" ref="demo_author_rowling"/>
+            <field name="isbn">978-0590353427</field>
+            <field name="category_id" ref="demo_category_fantasy"/>
+            <field name="state">available</field>
+        </record>
+
+        <record id="demo_book_3" model="library.book">
+            <field name="name">The Hobbit</field>
+            <field name="author_id" ref="demo_author_tolkien"/>
+            <field name="isbn">978-0547928227</field>
+            <field name="category_id" ref="demo_category_fantasy"/>
+            <field name="state">available</field>
+        </record>
+
+        <record id="demo_book_4" model="library.book">
+            <field name="name">Foundation</field>
+            <field name="author_id" ref="demo_author_asimov"/>
+            <field name="isbn">978-0553293357</field>
+            <field name="category_id" ref="demo_category_fiction"/>
+            <field name="state">available</field>
+        </record>
+
+        <record id="demo_book_5" model="library.book">
+            <field name="name">Cosmos</field>
+            <field name="author_id" ref="demo_author_sagan"/>
+            <field name="isbn">978-0345331359</field>
+            <field name="category_id" ref="demo_category_science"/>
+            <field name="state">available</field>
+        </record>
+
+        <record id="demo_partner_alice" model="res.partner">
+            <field name="name">Alice Smith</field>
+            <field name="email">alice@example.com</field>
+        </record>
+        <record id="demo_partner_bob" model="res.partner">
+            <field name="name">Bob Johnson</field>
+            <field name="email">bob@example.com</field>
+        </record>
+        <record id="demo_partner_charlie" model="res.partner">
+            <field name="name">Charlie Davis</field>
+            <field name="email">charlie@example.com</field>
+        </record>
+        <record id="demo_partner_diana" model="res.partner">
+            <field name="name">Diana Prince</field>
+            <field name="email">diana@example.com</field>
+        </record>
+        <record id="demo_partner_eve" model="res.partner">
+            <field name="name">Eve Adams</field>
+            <field name="email">eve@example.com</field>
+        </record>
+
+        <record id="demo_member_1" model="library.member">
+            <field name="partner_id" ref="demo_partner_alice"/>
+            <field name="active">True</field>
+        </record>
+        <record id="demo_member_2" model="library.member">
+            <field name="partner_id" ref="demo_partner_bob"/>
+            <field name="active">True</field>
+        </record>
+        <record id="demo_member_3" model="library.member">
+            <field name="partner_id" ref="demo_partner_charlie"/>
+            <field name="active">True</field>
+        </record>
+        <record id="demo_member_4" model="library.member">
+            <field name="partner_id" ref="demo_partner_diana"/>
+            <field name="active">True</field>
+        </record>
+        <record id="demo_member_5" model="library.member">
+            <field name="partner_id" ref="demo_partner_eve"/>
+            <field name="active">False</field>
+        </record>
+
+        <record id="demo_borrow_1" model="library.borrow">
+            <field name="book_id" ref="demo_book_1"/>
+            <field name="member_id" ref="demo_member_1"/>
+            <field name="borrow_date">2026-01-05</field>
+            <field name="return_pre">2026-01-20</field>
+            <field name="return_date">2026-01-20</field>
+            <field name="state">returned</field>
+        </record>
+
+        <record id="demo_borrow_2" model="library.borrow">
+            <field name="book_id" ref="demo_book_4"/>
+            <field name="member_id" ref="demo_member_2"/>
+            <field name="borrow_date">2026-02-10</field>
+            <field name="return_pre">2026-02-25</field>
+            <field name="return_date">2026-02-25</field>
+            <field name="state">returned</field>
+        </record>
+
+        <record id="demo_borrow_3" model="library.borrow">
+            <field name="book_id" ref="demo_book_2"/>
+            <field name="member_id" ref="demo_member_3"/>
+            <field name="borrow_date">2026-03-05</field>
+            <field name="return_pre">2026-03-20</field>
+            <field name="return_date">2026-03-15</field>
+            <field name="state">returned</field>
+        </record>
+
+        <record id="demo_borrow_4" model="library.borrow">
+            <field name="book_id" ref="demo_book_3"/>
+            <field name="member_id" ref="demo_member_4"/>
+            <field name="borrow_date">2025-12-01</field>
+            <field name="return_pre">2025-12-16</field>
+            <field name="return_date">2026-02-15</field>
+            <field name="state">returned</field>
+        </record>
+
+        <record id="demo_borrow_5" model="library.borrow">
+            <field name="book_id" ref="demo_book_1"/>
+            <field name="member_id" ref="demo_member_5"/>
+            <field name="borrow_date">2026-02-01</field>
+            <field name="return_pre">2026-02-16</field>
+            <field name="return_date">2026-02-15</field>
+            <field name="state">returned</field>
+        </record>
+
+    </data>
+</odoo>

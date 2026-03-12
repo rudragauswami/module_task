@@ -3,8 +3,8 @@
     <menuitem id="view_menus_main" name="Library Management" sequence="1"/>
 <!--    child menus or sub menus-->
     <menuitem id="menu_book_view" name="Books" parent="view_menus_main" action="book_action" sequence="10"/>
+    <menuitem id="menu_category_view" name="Categories" parent="view_menus_main" action="category_action" sequence="15"/>
     <menuitem id="menu_book_borrow_view" name="Book Borrow" parent="view_menus_main" action="borrow_action" sequence="20"/>
     <menuitem id="menu_members_view" name="Members" parent="view_menus_main" action="member_action" sequence="30"/>
-
 
 </odoo>

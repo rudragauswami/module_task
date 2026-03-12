@@ -4,7 +4,7 @@
     "version": "1.0",
     "summary": "Shutter Master & Automatic Component Configuration in Sale Order",
     "description": """""",
-    "author": "Reliution",
+    "author": "Rudra",
     "category": "Education",
     "depends": ["base","sale","product"],
     "data": [

@@ -1,45 +1,82 @@
 <odoo>
-    <!--Library Management Book borrow Form view-->
+    <!--    form view-->
     <record id="view_lib_borrow_form_view" model="ir.ui.view">
-        <field name="name">Library management book borrow form view</field>
+        <field name="name">library.borrow.form</field>
         <field name="model">library.borrow</field>
         <field name="arch" type="xml">
-            <form string="Library Book Borrow">
+            <form string="Borrow Ticket">
                 <header>
-                    <button name="action_return" type="object" string="Return" class="oe_highlight"/>
+                    <button name="action_send_overdue_mail" type="object" string="Send Overdue Email"
+                            class="btn-secondary" invisible="state == 'returned'"/>
+
+                    <button name="action_return" type="object" string="Return Book" class="oe_highlight"
+                            invisible="state == 'returned'"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="borrowed,returned,overdue"/>
                 </header>
-                <group>
+
+                <sheet>
                     <group>
-                        <field name="book_id"/>
-                        <field name="member_id"/>
-                        <field name="borrow_date"/>
+                        <group>
+                            <field name="book_id"/>
+                            <field name="member_id"/>
+                        </group>
+                        <group>
+                            <field name="borrow_date"/>
+                            <field name="return_pre"/>
+                            <field name="return_date"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="return_date"/>
-                        <field name="state"/>
-                    </group>
-                </group>
+                </sheet>
             </form>
         </field>
     </record>
-    <!--    library book borrow list view-->
+
+    <!--    list view-->
     <record id="view_lib_borrow_list_view" model="ir.ui.view">
-        <field name="name">Library management book borrow list view</field>
+        <field name="name">library.borrow.list</field>
         <field name="model">library.borrow</field>
         <field name="arch" type="xml">
-            <list string="Library Management">
+            <list string="Borrow Tickets">
                 <field name="book_id"/>
                 <field name="member_id"/>
                 <field name="borrow_date"/>
+                <field name="return_pre"/>
                 <field name="return_date"/>
-                <field name="state"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'returned'"
+                       decoration-warning="state == 'borrowed'"
+                       decoration-danger="state == 'overdue'"/>
             </list>
         </field>
     </record>
 
+<!--    search view-->
+    <record id="view_lib_borrow_search_view" model="ir.ui.view">
+        <field name="name">library.borrow.search</field>
+        <field name="model">library.borrow</field>
+        <field name="arch" type="xml">
+            <search string="Search Borrow Tickets">
+                <field name="book_id"/>
+                <field name="member_id"/>
+
+                <filter string="Currently Borrowed" name="borrowed" domain="[('state', '=', 'borrowed')]"/>
+                <filter string="Overdue" name="overdue" domain="[('state', '=', 'overdue')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Member" name="group_member" context="{'group_by': 'member_id'}"/>
+                    <filter string="Book" name="group_book" context="{'group_by': 'book_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--    action -->
     <record id="borrow_action" model="ir.actions.act_window">
-        <field name="name">Book</field>
+        <field name="name">Borrow</field>
         <field name="res_model">library.borrow</field>
         <field name="view_mode">list,form</field>
     </record>
+
 </odoo>

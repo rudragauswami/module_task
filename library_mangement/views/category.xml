@@ -1,0 +1,58 @@
+<odoo>
+<!--    form view-->
+    <record id="view_lib_category_form" model="ir.ui.view">
+        <field name="name">library.category.form</field>
+        <field name="model">library.category</field>
+        <field name="arch" type="xml">
+            <form string="Library Category">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Science Fiction"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="max_borrow_days"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Books in this Category">
+                            <field name="book_ids" readonly="1">
+                                <list string="Books">
+                                    <field name="name"/>
+                                    <field name="author_id"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'available'"
+                                           decoration-warning="state == 'borrowed'"
+                                           decoration-danger="state == 'lost'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    list view-->
+    <record id="view_lib_category_list" model="ir.ui.view">
+        <field name="name">library.category.list</field>
+        <field name="model">library.category</field>
+        <field name="arch" type="xml">
+            <list string="Library Categories">
+                <field name="name"/>
+                <field name="max_borrow_days"/>
+            </list>
+        </field>
+    </record>
+
+<!--    action-->
+    <record id="category_action" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">library.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
