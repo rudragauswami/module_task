@@ -5,7 +5,7 @@
     "summary": "Automatically apply discounts based on product quantity",
     "description": """""",
     "description": """""",
-    "author": "Reliution",
+    "author": "Rudra",
     "category": "Education",
     "depends": ["base","sale"],
     "data": [
