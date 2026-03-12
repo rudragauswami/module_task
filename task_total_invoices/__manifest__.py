@@ -4,7 +4,7 @@
     "version": "1.0",
     "summary": "invoices and payments i res.partner",
     "description": """""",
-    "author": "Reliution",
+    "author": "Rudra",
     "category": "Education",
     "depends": ["base","sale"],
     "data": [
