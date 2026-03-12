@@ -5,7 +5,7 @@
     "summary": "sale order line offer bu 10 or more get 1 free ",
     "description": """""",
     "description": """""",
-    "author": "Reliution",
+    "author": "Rudra",
     "category": "Education",
     "depends": ["base","sale"],
     "data": [
