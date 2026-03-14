@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Borrow Ticket">
                 <header>
-                    <button name="action_send_overdue_mail" type="object" string="Send Overdue Email"
+                    <button name="action_send_overdue_mail" type="object" string="Send Email"
                             class="btn-secondary" invisible="state == 'returned'"/>
 
                     <button name="action_return" type="object" string="Return Book" class="oe_highlight"

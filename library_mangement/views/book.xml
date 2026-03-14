@@ -7,7 +7,7 @@
             <form string="Library Book">
                 <header>
                     <button name="action_borrow" type="object" string="Borrow" class="oe_highlight" invisible="state != 'available'"/>
-                    <field name="state" widget="statusbar" statusbar_visible="available,borrowed,lost"/>
+                    <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
@@ -53,7 +53,7 @@
         </field>
     </record>
 
-<!--    kanban view for the ook module-->
+<!--    kanban view for the book module-->
     <record id="view_lib_book_kanban_view" model="ir.ui.view">
         <field name="name">library.book.kanban</field>
         <field name="model">library.book</field>

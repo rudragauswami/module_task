@@ -9,14 +9,13 @@ class LibraryBorrow(models.Model):
     book_id = fields.Many2one('library.book', string='Book', required=True)
     member_id = fields.Many2one('library.member', string='Member', required=True)
     borrow_date = fields.Date(string='Borrow Date', default=fields.Date.context_today)
-    return_date = fields.Date(string='Return Date')
+    return_date = fields.Date(string='Return Date',readonly=True)
     return_pre = fields.Date(string='Pre Return Date', required=True, help="when you will return book!")
 
-    state = fields.Selection([
-        ('borrowed', 'Borrowed'),
-        ('returned', 'Returned'),
-        ('overdue', 'Overdue')
-    ], string='State', default='borrowed')
+    state = fields.Selection([('borrowed', 'Borrowed'),
+                              ('returned', 'Returned'),
+                              ('overdue', 'Overdue')
+                              ], string='State', default='borrowed')
 
     @api.constrains('book_id')
     def _check_book_availability(self):
@@ -25,11 +24,30 @@ class LibraryBorrow(models.Model):
             if record.book_id and record.book_id.state != 'available':
                 raise ValidationError("You cannot borrow a book that is currently not available!")
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        tickets = super(LibraryBorrow, self).create(vals_list)
+        for ticket in tickets:
+            # it sets the book state to boroowed in library.book model
+            if ticket.state == 'borrowed' and ticket.book_id:
+                ticket.book_id.sudo().state = 'borrowed'
+        return tickets
+
+    def unlink(self):
+        for ticket in self:
+            # If they are deleting an old, already 'returned' book record then nothing happen!
+            if ticket.state in ['borrowed', 'overdue'] and ticket.book_id:
+                # Use .sudo() so a regular librarian doesn't get an Access Error!
+                ticket.book_id.sudo().state = 'available'
+
+        return super(LibraryBorrow, self).unlink()
+
     def action_return(self):
         for record in self:
-            record.state = 'returned'
-            record.return_date = fields.Date.context_today(record)
-            record.book_id.state = 'available'
+            record.sudo().state = 'returned'
+            record.sudo().return_date = fields.Date.context_today(record)
+            record.book_id.sudo().state = 'available'
+
 
     def action_send_overdue_mail(self):
         self.ensure_one()

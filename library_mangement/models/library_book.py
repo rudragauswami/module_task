@@ -21,11 +21,8 @@ class LibraryBook(models.Model):
     # Required for the compute function to count the tickets
     borrow_ids = fields.One2many('library.borrow', 'book_id', string="Borrow History")
 
-    borrow_count = fields.Integer(
-        compute="_compute_total_count",
-        string="Borrow Count",
-        store=True
-    )
+    borrow_count = fields.Integer(compute="_compute_total_count",string="Borrow Count",
+                                  store=True)
 
     @api.depends('borrow_ids')
     def _compute_total_count(self):
@@ -41,7 +38,7 @@ class LibraryBook(models.Model):
             member = self.env['library.member'].search([('partner_id', '=', partner_id)], limit=1)
 
             if not member:
-                member = self.env['library.member'].create({'partner_id': partner_id})
+                member = self.env['library.member'].sudo().create({'partner_id': partner_id})
 
             # Grab the days from the category, or default to 15 if no category is set
             days_allowed = book.category_id.max_borrow_days if book.category_id else 15
@@ -49,13 +46,11 @@ class LibraryBook(models.Model):
             today = fields.Date.context_today(self)
             due_date = today + timedelta(days=days_allowed)
 
-            self.env['library.borrow'].create({
-                'book_id': book.id,
-                'member_id': member.id,
-                'return_pre': due_date,
-            })
+            self.env['library.borrow'].create({'book_id': book.id,
+                                               'member_id': member.id,
+                                               'return_pre': due_date,})
 
-            book.state = 'borrowed'
+            book.sudo().state = 'borrowed'
 
 
 class LibraryCategory(models.Model):
